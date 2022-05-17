@@ -55,6 +55,12 @@ class Api::V1::Admin::UserController < AdminController
     render json: { count_user: users }, status: :ok
   end
 
+  def list_lecturer
+    users = Lecturer.all
+
+    render json: users, each_serializer: Api::V1::Admin::UserSerializer
+  end
+
   private
     def target_user
       @user ||= User.find(params[:uid])

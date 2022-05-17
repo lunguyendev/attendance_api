@@ -16,6 +16,22 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :subject, param: :subject_uid do
+        collection do
+          get :my_subject
+        end
+        member do
+          post :create_qr_code
+          get :get_qr_today
+        end
+        resources :take_part_in_subject do
+          collection do
+            post :register
+            post :cancel
+          end
+        end
+      end
+
       get "get_type_event", to: "event#get_type_event"
       resources :event, only: [:index, :show, :update, :destroy], param: :uid do
         collection do
@@ -67,6 +83,11 @@ Rails.application.routes.draw do
         end
       end
 
+      scope module: :lecturer do
+        resources :qr_code do
+        end
+      end
+
       namespace :admin do
         resources :user, only: [:index, :create], param: :uid do
           member do
@@ -78,6 +99,14 @@ Rails.application.routes.draw do
           end
           collection do
             post :count_user
+            get :list_lecturer
+          end
+        end
+        resources :subject, param: :subject_uid do
+          member do
+            post :open_subject
+            post :close_subject
+            post :pending_subject
           end
         end
       end
