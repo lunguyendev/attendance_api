@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_09_174540) do
+ActiveRecord::Schema.define(version: 2022_05_17_155054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,15 @@ ActiveRecord::Schema.define(version: 2021_06_09_174540) do
     t.index ["uid"], name: "index_events_on_uid", unique: true
   end
 
+  create_table "qr_codes", primary_key: "uid", id: :string, force: :cascade do |t|
+    t.string "subject_uid"
+    t.string "qr_code_string"
+    t.date "date"
+    t.datetime "expired_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "questions", primary_key: "uid", id: :string, force: :cascade do |t|
     t.string "template_feedback_uid"
     t.boolean "is_rating"
@@ -73,6 +82,22 @@ ActiveRecord::Schema.define(version: 2021_06_09_174540) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["uid"], name: "index_questions_on_uid", unique: true
+  end
+
+  create_table "subjects", primary_key: "uid", id: :string, force: :cascade do |t|
+    t.string "user_uid"
+    t.string "name"
+    t.string "size"
+    t.string "lecture_uid"
+    t.string "description"
+    t.string "img"
+    t.string "location"
+    t.integer "status", default: 0
+    t.integer "number_join", default: 0
+    t.date "start_at"
+    t.date "end_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "suggestions", primary_key: "uid", id: :string, force: :cascade do |t|
@@ -90,6 +115,13 @@ ActiveRecord::Schema.define(version: 2021_06_09_174540) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "evaluated", default: false
     t.index ["uid"], name: "index_take_part_in_events_on_uid", unique: true
+  end
+
+  create_table "take_part_in_subjects", primary_key: "uid", id: :string, force: :cascade do |t|
+    t.string "subject_uid"
+    t.string "user_uid"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "template_feedbacks", primary_key: "uid", id: :string, force: :cascade do |t|
