@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_17_155054) do
+ActiveRecord::Schema.define(version: 2022_05_18_150819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,15 @@ ActiveRecord::Schema.define(version: 2022_05_17_155054) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["uid"], name: "index_answers_on_uid", unique: true
+  end
+
+  create_table "attendances", primary_key: "uid", id: :string, force: :cascade do |t|
+    t.string "subject_uid"
+    t.string "qr_code_uid"
+    t.string "student_uid"
+    t.date "date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "calendars", primary_key: "uid", id: :string, force: :cascade do |t|

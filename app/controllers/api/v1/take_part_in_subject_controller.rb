@@ -17,6 +17,6 @@ class Api::V1::TakePartInSubjectController < ApplicationController
 
   private
     def target_subject
-      @target_subject = Subject.find(params[:subject_uid])
+      @target_subject = Subject.find(params[:subject_subject_uid])
     end
 end

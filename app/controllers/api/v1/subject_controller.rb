@@ -10,6 +10,7 @@ class Api::V1::SubjectController < ApplicationController
     subject_serializable = ActiveModelSerializers::SerializableResource.new(
       @collection_subjects,
       each_serializer: Api::V1::SubjectSerializer,
+      current_user: @current_user
     )
 
     response_hash = {
@@ -30,6 +31,7 @@ class Api::V1::SubjectController < ApplicationController
     subject_serializable = ActiveModelSerializers::SerializableResource.new(
       @collection_subjects,
       each_serializer: Api::V1::SubjectSerializer,
+      current_user: @current_user
     )
 
     response_hash = {
@@ -40,6 +42,10 @@ class Api::V1::SubjectController < ApplicationController
     }
 
     render json: response_hash
+  end
+
+  def show
+    render json: target_subject, serializer: Api::V1::SubjectSerializer, current_user: @current_user
   end
 
   def create_qr_code
@@ -54,6 +60,13 @@ class Api::V1::SubjectController < ApplicationController
     value = qr_code_today(target_subject)
 
     render json: value, status: :ok
+  end
+
+  def list_student
+    user_uids = target_subject.take_part_in_subjects.pluck(:user_uid)
+    users = User.users_by_ids(user_uids)
+
+    render json: users, each_serializer: Api::V1::Admin::UserSerializer
   end
 
   private
