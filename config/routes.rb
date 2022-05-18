@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         member do
           post :create_qr_code
           get :get_qr_today
+          get :list_student
         end
         resources :take_part_in_subject do
           collection do
@@ -83,8 +84,23 @@ Rails.application.routes.draw do
         end
       end
 
-      scope module: :lecturer do
-        resources :qr_code do
+      scope module: :student do
+        resources :qr_code, param: :qr_code_string do
+          member do
+            get :attendance
+          end
+          collection do
+            get :list_attendance
+            post :attendance_manual
+          end
+        end
+      end
+
+      namespace :lecturer do
+        resources :qr_code, param: :qr_code_string do
+          collection do
+            post :attendance
+          end
         end
       end
 
@@ -126,7 +142,6 @@ Rails.application.routes.draw do
           end
           resources :take_part_in_event, only: [], module: :event do
             collection do
-              get :list_attendance
               post "attendance"
               post :export_list_attendance
             end

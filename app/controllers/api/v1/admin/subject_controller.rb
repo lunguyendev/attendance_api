@@ -6,7 +6,7 @@ class Api::V1::Admin::SubjectController < AdminController
   def create
     subject = @current_user.subjects.create(params_subject_create)
 
-    render json: subject, serializer: Api::V1::SubjectSerializer, status: :created
+    render json: subject, serializer: Api::V1::SubjectSerializer, current_user: @current_user status: :created
   end
 
   def index
@@ -18,6 +18,7 @@ class Api::V1::Admin::SubjectController < AdminController
     subject_serializable = ActiveModelSerializers::SerializableResource.new(
       @collection_subjects,
       each_serializer: Api::V1::SubjectSerializer,
+      current_user: @current_user
     )
 
     response_hash = {
