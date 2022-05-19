@@ -24,6 +24,7 @@ Rails.application.routes.draw do
           post :create_qr_code
           get :get_qr_today
           get :list_student
+          get :attendance_detail
         end
         resources :take_part_in_subject do
           collection do
@@ -116,6 +117,7 @@ Rails.application.routes.draw do
           collection do
             post :count_user
             get :list_lecturer
+            get :statistic
           end
         end
         resources :subject, param: :subject_uid do

@@ -9,4 +9,5 @@ class QrCode < ApplicationRecord
   end
 
   scope :created_at_desc, -> { order created_at: :desc }
+  scope :created_at_asc, -> { order created_at: :asc }
 end

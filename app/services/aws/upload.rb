@@ -7,7 +7,7 @@ class Aws::Upload
   end
 
   def execute
-    object = client.bucket(ENV["BUCKET_NAME"]).object(file_name)
+    object = client.bucket("3a2s-system").object(file_name)
     result = object.upload_file(file_path)
     return object.public_url if result
 
@@ -20,8 +20,8 @@ class Aws::Upload
     def client
       Aws::S3::Resource.new(
         credentials: Aws::Credentials.new(
-          ENV["AWS_KEY"],
-          ENV["AWS_SECRET"]
+          "AKIA4RHRYQ65H2OHFDHP",
+          "sI/8u7p7H8zy/7DINIxo71L7387AdLLvUBATIJex"
         ),
         region: "ap-southeast-1")
     end

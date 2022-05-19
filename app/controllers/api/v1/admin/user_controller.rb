@@ -2,6 +2,7 @@
 
 class Api::V1::Admin::UserController < AdminController
   include Util::Generation
+  include Statistic
   def index
     users = User.not_admin.order("email ASC")
     render json: users, each_serializer: Api::V1::Admin::UserSerializer
@@ -59,6 +60,10 @@ class Api::V1::Admin::UserController < AdminController
     users = Lecturer.all
 
     render json: users, each_serializer: Api::V1::Admin::UserSerializer
+  end
+
+  def statistic
+    render json: statistic_detail
   end
 
   private

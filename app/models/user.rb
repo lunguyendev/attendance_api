@@ -14,6 +14,7 @@ class User < ApplicationRecord
   enum gender: %i(male female)
 
   scope :users_by_ids, ->(ids) { where("uid IN (?)", ids) }
+  scope :name_asc, -> { order name: :asc }
   validates :phone, uniqueness: true, allow_blank: true
   validates :email, uniqueness: true, allow_blank: false
   validates :id_student, uniqueness: true, allow_blank: true

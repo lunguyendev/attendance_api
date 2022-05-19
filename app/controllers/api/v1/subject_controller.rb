@@ -62,6 +62,10 @@ class Api::V1::SubjectController < ApplicationController
     render json: value, status: :ok
   end
 
+  def attendance_detail
+    render json: target_subject, serializer: Api::V1::AttendanceSerializer
+  end
+
   def list_student
     user_uids = target_subject.take_part_in_subjects.pluck(:user_uid)
     users = User.users_by_ids(user_uids)
