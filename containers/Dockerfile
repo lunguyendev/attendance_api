@@ -1,4 +1,4 @@
-FROM ruby:2.7.1
+FROM ruby:3.0.3
 
 ENV APP_HOME /opt/app
 # Installation of dependencies

@@ -2,8 +2,8 @@ version: '3.7'
 
 services:
   backend:
-    container_name: container_backend
-    image: image_backend
+    container_name: container_backend_host
+    image: image_be_attendance
     build:
       context: .
       dockerfile: containers/Dockerfile
@@ -30,10 +30,5 @@ services:
       - "db-data:/var/lib/postgresql/data"
     networks:
       - default
-  mail_server:
-    image: schickling/mailcatcher:latest
-    ports:
-      - "1025:1025"
-      - "1080:1080"
 volumes:
   db-data:

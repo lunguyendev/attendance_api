@@ -9,7 +9,8 @@ class Api::V1::SubjectSerializer < ActiveModel::Serializer
     :status,
     :number_join,
     :start_at,
-    :end_at
+    :end_at,
+    :is_join
 
   attributes :attendances
   def initialize(object, options = {})
@@ -28,6 +29,12 @@ class Api::V1::SubjectSerializer < ActiveModel::Serializer
       }
     end
     return {total_attendance: total_attendance}
+  end
+
+  def is_join
+    return false unless @current_user&.student?
+
+    @current_user.take_part_in_subjects.find_by(subject_uid: subject.uid)&.present?
   end
 
 end
