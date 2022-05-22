@@ -8,7 +8,7 @@ class AdminController < ActionController::API
     def authorize_request
       @current_user ||= Auth::Authorization.new(request.headers).execute
 
-      return if @current_user.admin? || @current_user.approval?
+      return if @current_user.admin? || @current_user.lecturer?
 
       raise Errors::ExceptionHandler::PermissionDenied, I18n.t("errors.permission_denied")
     end

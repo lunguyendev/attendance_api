@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 class Api::V1::Admin::SubjectController < AdminController
   include Api::Subject::FilterSubject
-  before_action :target_subject
 
   def create
     subject = @current_user.subjects.create(params_subject_create)
