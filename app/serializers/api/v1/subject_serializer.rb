@@ -34,7 +34,7 @@ class Api::V1::SubjectSerializer < ActiveModel::Serializer
   def is_join
     return false unless @current_user&.student?
 
-    @current_user.take_part_in_subjects.find_by(subject_uid: subject.uid)&.present?
+    @current_user.take_part_in_subjects.find_by(subject_uid: object.uid)&.present?
   end
 
 end
