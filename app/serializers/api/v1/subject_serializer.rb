@@ -10,7 +10,8 @@ class Api::V1::SubjectSerializer < ActiveModel::Serializer
     :number_join,
     :start_at,
     :end_at,
-    :is_join
+    :is_join,
+    :lecture
 
   attributes :attendances
   def initialize(object, options = {})
@@ -37,4 +38,11 @@ class Api::V1::SubjectSerializer < ActiveModel::Serializer
     @current_user.take_part_in_subjects.find_by(subject_uid: object.uid)&.present?
   end
 
+  def lecture
+    lecture = Lecturer.find_by(uid: object.lecture_uid)
+    ActiveModelSerializers::SerializableResource.new(
+      lecture,
+      serializer: Api::V1::UserSerializer
+    )
+  end
 end

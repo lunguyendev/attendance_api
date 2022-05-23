@@ -7,7 +7,7 @@ class Api::V1::Student::QrCodeController < StudentController
   end
 
   def list_attendance
-    attendances = @current_user.attendances
+    attendances = @current_user.attendances.where(subject_uid: param_subject[:subject_uid])
 
     render json: attendances, each_serializer: Api::V1::Student::AttendanceSerializer
   end
@@ -27,5 +27,11 @@ class Api::V1::Student::QrCodeController < StudentController
 
     def target_student
       Student.find_by!(uid: params[:student_uid])
+    end
+
+    def param_subject
+      params.permit(
+        :subject_uid
+      )
     end
 end

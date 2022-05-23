@@ -44,9 +44,10 @@ class Api::V1::Admin::UserController < AdminController
   end
 
   def create
-    enterprise = Enterprise.create!(params_user.merge(status: "inactived"))
-    token = enterprise.create_token
-    EventMailer.reset_password(enterprise.email, token.qr_code_string).deliver_later
+    lecture = Lecturer.create!(params_user.merge(status: "actived"))
+    password_user = generate_hash_password("password123")
+    lecture.hashed_password=password_user
+    lecture.save!
 
     head :created
   end
@@ -72,6 +73,12 @@ class Api::V1::Admin::UserController < AdminController
     end
 
     def params_user
-      params.permit(:email, :name, :phone)
+      params.permit(
+        :email,
+        :name,
+        :phone,
+        :avatar,
+        :gender,
+      )
     end
 end

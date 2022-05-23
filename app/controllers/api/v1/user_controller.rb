@@ -2,7 +2,7 @@
 
 class Api::V1::UserController < ApplicationController
   include Util::Generation
-  skip_before_action :authorize_request, only: [:login, :change_password]
+  skip_before_action :authorize_request, only: [:login, :change_password, :create]
 
   def login
     authenticator = Auth::Authentication.new(auth_params[:email], auth_params[:password])
@@ -29,6 +29,37 @@ class Api::V1::UserController < ApplicationController
 
   def profile
     render json: @current_user, each_serializer: Api::V1::UserSerializer
+  end
+
+  def create
+    email = params_user["email"]
+    name = params_user["name"]
+    hash_password = generate_hash_password(params_user["password"])
+    phone_number = params_user["phone"]
+    avatar = params_user["avatar"]
+
+    student = Student.create!(
+      email: email,
+      hashed_password: hash_password,
+      name: name,
+      phone: phone_number,
+      avatar: avatar,
+      role: 0,
+      status: 1
+    )
+    student.actived!
+    authenticator = Auth::Authentication.new(student.email, params_user[:password])
+    unless authenticator.authenticable?
+      head :unauthorized
+      return
+    end
+    render json: authenticator.authenticated_user, serializer: Api::V1::User::LoginSerializer
+  end
+
+  def update
+    target_user.update!(param_updade)
+
+    head :accepted
   end
 
   def change_password
@@ -60,5 +91,29 @@ class Api::V1::UserController < ApplicationController
     def change_password_params
       params.require(:change_password)
             .permit(:token, :password)
+    end
+
+    def params_user
+      params.permit(
+        :email,
+        :name,
+        :phone,
+        :avatar,
+        :password
+      )
+    end
+
+    def target_user
+      @user ||= User.find(params[:uid])
+    end
+
+    def param_updade
+      params.permit(
+        :name,
+        :phone,
+        :avatar,
+        :id_lecturer,
+        :id_student
+      )
     end
 end

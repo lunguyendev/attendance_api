@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       post "uploadfile", to: "upload#upload"
-      resources :user, only: [] do
+      resources :user, param: :uid do
         collection do
           post :login
           get :logout
@@ -106,7 +106,7 @@ Rails.application.routes.draw do
       end
 
       namespace :admin do
-        resources :user, only: [:index, :create], param: :uid do
+        resources :user, only: [:index, :create, :update, :destroy], param: :uid do
           member do
             get :ban
             get :unban
