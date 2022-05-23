@@ -45,7 +45,7 @@ admin1 = Admin.create(
 admin = Admin.create(
   email: "nguyen.van.a@school.com",
   hashed_password: password_user,
-  role: 0,
+  role: 2,
   name: "Nguyen van A",
   phone: Faker::PhoneNumber.phone_number,
   gender: 0,
@@ -155,7 +155,7 @@ end
   number_student = (20..40).to_a.sample
   students = Student.all.sample(number_student)
 
-  students.each do |each|
+  students.each do |student|
     student.take_part_in_subjects.create!({subject_uid: subject.uid})
   end
 end
