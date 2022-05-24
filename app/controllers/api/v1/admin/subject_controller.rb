@@ -10,7 +10,7 @@ class Api::V1::Admin::SubjectController < AdminController
 
   def update
     if target_subject.pending?
-      target_event.update!(params_subject_create)
+      target_subject.update!(params_subject_create)
       return head :accepted
     end
 
@@ -19,7 +19,7 @@ class Api::V1::Admin::SubjectController < AdminController
 
   def destroy
     if target_subject.pending?
-      target_event.destroy!
+      target_subject.destroy!
       return head :accepted
     end
 

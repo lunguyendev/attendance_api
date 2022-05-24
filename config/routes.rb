@@ -13,12 +13,14 @@ Rails.application.routes.draw do
           get :profile
           post :change_password
           get :search_email
+          get :list_lecturer
         end
       end
 
       resources :subject, param: :subject_uid do
         collection do
           get :my_subject
+          get :search
         end
         member do
           post :create_qr_code

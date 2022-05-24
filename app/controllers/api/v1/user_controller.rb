@@ -77,6 +77,12 @@ class Api::V1::UserController < ApplicationController
     render json: users, each_serializer: Api::V1::Admin::UserSerializer
   end
 
+  def list_lecturer
+    users = Lecturer.all
+
+    render json: users, each_serializer: Api::V1::Admin::UserSerializer
+  end
+
   private
     def auth_params
       params.permit(:email, :password)

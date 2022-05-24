@@ -40,6 +40,7 @@ class Api::V1::SubjectSerializer < ActiveModel::Serializer
 
   def lecture
     lecture = Lecturer.find_by(uid: object.lecture_uid)
+    return {} unless lecture
     ActiveModelSerializers::SerializableResource.new(
       lecture,
       serializer: Api::V1::UserSerializer

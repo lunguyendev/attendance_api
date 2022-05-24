@@ -44,6 +44,27 @@ class Api::V1::SubjectController < ApplicationController
     render json: response_hash
   end
 
+  def search
+    subjects = Subject.where("name LIKE '%#{params[:name]}%'").created_at_desc
+
+    @collection_subjects = Kaminari.paginate_array(subjects).page(params[:page]).per(10)
+
+    subject_serializable = ActiveModelSerializers::SerializableResource.new(
+      @collection_subjects,
+      each_serializer: Api::V1::SubjectSerializer,
+      current_user: @current_user
+    )
+
+    response_hash = {
+      data: subject_serializable,
+      total_page: @collection_subjects.total_pages,
+      current_page: @collection_subjects.current_page,
+      total_count: subjects.count
+    }
+
+    render json: response_hash
+  end
+
   def show
     render json: target_subject, serializer: Api::V1::SubjectSerializer, current_user: @current_user
   end
