@@ -47,6 +47,7 @@ class Api::V1::Admin::UserController < AdminController
     lecture = Lecturer.create!(params_user.merge(status: "actived"))
     password_user = generate_hash_password("password123")
     lecture.hashed_password=password_user
+    lecture.role = 1
     lecture.save!
 
     head :created
